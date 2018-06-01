@@ -30,17 +30,32 @@ MainWindow::MainWindow(QWidget *parent) :
     cout << transmittance->getBodePhaseShift(0.7/(2*PI) ) << endl;
 
     //Sleep(2000);
-
+    ui->customPlot->setFixedHeight(500);
+    ui->customPlot->setFixedWidth(600);
 
     ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-    graph = ui->customPlot->addGraph();
-
-    graph->setData(xData, yData);
-    graph->setPen(QPen(Qt::blue));
-    graph->rescaleAxes();
+    inputGraph = ui->customPlot->addGraph();
+    inputGraph->setData(xData, yData);
+    inputGraph->setPen(QPen(Qt::blue));
+    inputGraph->rescaleAxes();
   //  ui->customPlot->yAxis->setRange(-1.45, 1.65);
     ui->customPlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
 
+
+
+
+    QCPAxisRect *upperGraph = new QCPAxisRect(ui->customPlot);
+    upperGraph->setupFullAxesBox(true);
+    QCPLayoutGrid *subLayout = new QCPLayoutGrid;
+    ui->customPlot->plotLayout()->addElement(0, 0, upperGraph); // insert axis rect in first row
+    ui->customPlot->plotLayout()->addElement(1, 0, subLayout); // sub layout in second row (grid layout will grow accordingly)
+    QCPAxisRect *lowerGraph = new QCPAxisRect(ui->customPlot, true); // false means to not setup default axes
+    subLayout->addElement(0, 0, lowerGraph);
+
+     outputGraph = ui->customPlot->addGraph(lowerGraph->axis(QCPAxis::atBottom), lowerGraph->axis(QCPAxis::atLeft));
+
+   // subRectRight->setMaximumSize(150, 150); // make bottom right axis rect size fixed 150x150
+   // subRectRight->setMinimumSize(150, 150); // make bottom right axis rect size fixed 150x150
 //    // add the bracket at the top:
 //    QCPItemBracket *bracket = new QCPItemBracket(ui->customPlot);
 //    bracket->left->setCoords(-8, 1.1);
@@ -169,9 +184,13 @@ void MainWindow::timerEvent()
     xData.append(counter);
     counter++;
     yData.append(transmittance->getOutputValue());
+    inputData.append(generator->getFunctionValue(inputFunctionType,timer));
 
-     graph->setData(xData, yData);
-     graph->rescaleAxes();
+     outputGraph->setData(xData, yData);
+     outputGraph->rescaleAxes();
+     inputGraph->setData(xData, inputData);
+     inputGraph->setPen(QPen(Qt::red));
+     inputGraph->rescaleAxes();
      ui->customPlot->replot();
    //  if(counter > 800) plotTimer->stop();
 }
@@ -193,7 +212,7 @@ void MainWindow::on_startStopButton_clicked()
 
 void MainWindow::on_rescaleButton_clicked()
 {
-    graph->rescaleAxes();
+    outputGraph->rescaleAxes();
     ui->customPlot->replot();
 }
 
@@ -297,7 +316,9 @@ void MainWindow::on_resetButton_clicked()
 {
     xData.clear();
     yData.clear();
-    graph->setData(xData,yData);
+    inputData.clear();
+    outputGraph->setData(xData,yData);
+    inputGraph->setData(xData,inputData);
     ui->customPlot->replot();
 
     counter = 0;

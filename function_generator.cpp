@@ -49,23 +49,25 @@ double C_Generator::parseInputPI(QString input)
 {
     QRegExp PIrx("PI|pi[/]([0-9]+)");
     QRegExp filter("[A-Z]");
-    QString outD1,outD2,out;
-    double result,out1,out2;
+    QString outD1,outD2;
+
 
     if(input.contains(PIrx))
     {
        PIrx.indexIn(input);
-        QStringList list = PIrx.capturedTexts();
 
-        out = input;
-        out.toUpper();
-        out.replace("PI","3.14159");
-        out.remove(filter);
-        QStringList list1 = out.split('/');
+        input.toUpper();
+        input.replace("PI","3.14159");
+        input.remove(filter);
+        QStringList list1 = input.split('/');
         outD1 =  list1[0];
-        outD2 =  list1[1];
-        result = outD1.toDouble()/outD2.toDouble();
-        return result;
+        if(list1.size() > 1)
+        {
+             outD2 =  list1[1];
+             return outD1.toDouble()/outD2.toDouble();
+        }
+        else
+            return outD1.toDouble();
     }
     return 0;
 

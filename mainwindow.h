@@ -18,7 +18,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    QCPGraph *graph;
+    QCPGraph *outputGraph, *inputGraph, *bode1Graph, *bode2Graph;
     ~MainWindow();
 
 private slots:
@@ -41,7 +41,7 @@ private:
     C_Generator *generator;
     C_Transmittance *transmittance;
     enum fType inputFunctionType;
-    QVector<double> xData, yData;
+    QVector<double> xData, yData, inputData;
     int	   counter = 0;
 
 
