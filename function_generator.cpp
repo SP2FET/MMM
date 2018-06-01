@@ -48,7 +48,7 @@ double C_Generator::getFunctionValue(enum fType functionType, double time)
 double C_Generator::parseInputPI(QString input)
 {
     QRegExp PIrx("PI|pi[/]([0-9]+)");
-    QRegExp filter("[A-Z]");
+    QRegExp filter("[A-Z]|[a-z]");
     QString outD1,outD2;
 
 
@@ -68,6 +68,8 @@ double C_Generator::parseInputPI(QString input)
         }
         else
             return outD1.toDouble();
+
+
     }
     return 0;
 

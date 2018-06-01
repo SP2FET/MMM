@@ -43,7 +43,7 @@ private:
     enum fType inputFunctionType;
     QVector<double> xData, yData, inputData;
     int	   counter = 0;
-
+    QString cleanStringFromGarbage(QString str);
 
 protected:
 

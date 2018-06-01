@@ -305,13 +305,23 @@ void MainWindow::on_updateInputButton_clicked()
 
     ui->ampLabel->setText(ui->ampEdit->text());
     ui->freqLabel->setText(ui->freqEdit->text());
-    ui->phaseLabel->setText(ui->phaseEdit->text());
+
+    ui->phaseLabel->setText(cleanStringFromGarbage(ui->phaseEdit->text()));
 
 
 
 }
 
+QString MainWindow::cleanStringFromGarbage(QString str)
+{
+    QRegExp filter("[A-Z]|[a-z]");
 
+    str.toUpper();
+    str.replace("PI","3.14159");
+    str.remove(filter);
+    str.replace("3.14159","PI");
+    return str;
+}
 void MainWindow::on_resetButton_clicked()
 {
     xData.clear();
