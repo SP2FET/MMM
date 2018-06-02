@@ -28,7 +28,8 @@ SOURCES += \
         mainwindow.cpp \
     qcustomplot.cpp \
     function_generator.cpp \
-    tranmittance.cpp
+    tranmittance.cpp \
+    bodedialog.cpp
 
 
 HEADERS += \
@@ -38,8 +39,10 @@ HEADERS += \
     tmat.h \
     transmittance.h \
     tvec.h \
-    stdafx.h
+    stdafx.h \
+    bodedialog.h
 
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    bodedialog.ui

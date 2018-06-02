@@ -350,14 +350,37 @@
     <widget class="QPushButton" name="rescaleButton">
      <property name="geometry">
       <rect>
-       <x>180</x>
-       <y>30</y>
+       <x>10</x>
+       <y>110</y>
        <width>88</width>
        <height>34</height>
       </rect>
      </property>
      <property name="text">
       <string>Rescale Axes</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>30</y>
+       <width>113</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="bodeButton">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>110</y>
+       <width>88</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Bode plot</string>
      </property>
     </widget>
    </widget>

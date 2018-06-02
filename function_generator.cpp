@@ -47,19 +47,19 @@ double C_Generator::getFunctionValue(enum fType functionType, double time)
 
 double C_Generator::parseInputPI(QString input)
 {
-    QRegExp PIrx("PI|pi[/]([0-9]+)");
+    QRegExp PIrx("-?PI|pi[//][0-9]+");
     QRegExp filter("[A-Z]|[a-z]");
-    QString outD1,outD2;
+    QString outD1,outD2, outStr;
 
 
-    if(input.contains(PIrx))
+    if(input.toUpper().contains(PIrx))
     {
        PIrx.indexIn(input);
 
-        input.toUpper();
-        input.replace("PI","3.14159");
-        input.remove(filter);
-        QStringList list1 = input.split('/');
+        outStr = input.toUpper();
+        outStr.replace("PI","3.14159");
+        outStr.remove(filter);
+        QStringList list1 = outStr.split('/');
         outD1 =  list1[0];
         if(list1.size() > 1)
         {

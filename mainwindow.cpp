@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "transmittance.h"
 #include "function_generator.h"
-
+#include "bodedialog.h"
 
 
 using namespace std;
@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     subLayout->addElement(0, 0, lowerGraph);
 
      outputGraph = ui->customPlot->addGraph(lowerGraph->axis(QCPAxis::atBottom), lowerGraph->axis(QCPAxis::atLeft));
+
 
    // subRectRight->setMaximumSize(150, 150); // make bottom right axis rect size fixed 150x150
    // subRectRight->setMinimumSize(150, 150); // make bottom right axis rect size fixed 150x150
@@ -315,12 +316,13 @@ void MainWindow::on_updateInputButton_clicked()
 QString MainWindow::cleanStringFromGarbage(QString str)
 {
     QRegExp filter("[A-Z]|[a-z]");
-
-    str.toUpper();
-    str.replace("PI","3.14159");
-    str.remove(filter);
-    str.replace("3.14159","PI");
-    return str;
+    QString outStr;
+    QString pi = QChar(0x03C0);
+    outStr = str.toUpper();
+    outStr.replace("PI","3.14159");
+    outStr.remove(filter);
+    outStr.replace("3.14159",pi);
+    return outStr;
 }
 void MainWindow::on_resetButton_clicked()
 {
@@ -332,4 +334,21 @@ void MainWindow::on_resetButton_clicked()
     ui->customPlot->replot();
 
     counter = 0;
+}
+
+void MainWindow::on_bodeButton_clicked()
+{
+    QVector<double> xData, y1Data, y2Data;
+
+    for (double index = 0; index < 100; index= index+0.01) {
+        y1Data.append(transmittance->getBodeMagnitude((index)/2*PI));
+        y2Data.append(qRadiansToDegrees(transmittance->getBodePhaseShift((index)/2*PI)));
+        xData.append((index*100)/2*PI);
+    }
+
+    BodeDialog *bodeDialog = new BodeDialog(xData,y1Data,y2Data);
+    //bodeDialog->setParent(this);
+
+    bodeDialog->exec();
+
 }

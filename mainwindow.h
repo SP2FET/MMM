@@ -35,6 +35,8 @@ private slots:
 
     void on_resetButton_clicked();
 
+    void on_bodeButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTimer *plotTimer;
@@ -46,6 +48,8 @@ private:
     QString cleanStringFromGarbage(QString str);
 
 protected:
+
+
 
 };
 
