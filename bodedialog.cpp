@@ -45,7 +45,8 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
     bode2Graph->keyAxis()->setNumberPrecision(0); // makes sure "1*10^4" is displayed only as "10^4"
     bode1Graph->keyAxis()->setRangeLower(10e-4);
     bode2Graph->keyAxis()->setRangeLower(10e-4);
-
+    bode1Graph->keyAxis()->grid()->setSubGridVisible(true);
+    bode2Graph->keyAxis()->grid()->setSubGridVisible(true);
 
 
 
