@@ -52,6 +52,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QCPAxisRect *lowerGraph = new QCPAxisRect(ui->customPlot, true); // false means to not setup default axes
     subLayout->addElement(0, 0, lowerGraph);
 
+    QCPMarginGroup *group = new QCPMarginGroup(ui->customPlot);
+    ui->customPlot->axisRect(0)->setMarginGroup(QCP::msLeft|QCP::msRight, group);
+    ui->customPlot->axisRect(1)->setMarginGroup(QCP::msLeft|QCP::msRight, group);
+
+
      outputGraph = ui->customPlot->addGraph(lowerGraph->axis(QCPAxis::atBottom), lowerGraph->axis(QCPAxis::atLeft));
 
 

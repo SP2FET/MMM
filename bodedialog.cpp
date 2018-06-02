@@ -48,6 +48,10 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
     bode1Graph->keyAxis()->grid()->setSubGridVisible(true);
     bode2Graph->keyAxis()->grid()->setSubGridVisible(true);
 
+    QCPMarginGroup *group = new QCPMarginGroup(ui->customPlot);
+    ui->customPlot->axisRect(0)->setMarginGroup(QCP::msLeft|QCP::msRight, group);
+    ui->customPlot->axisRect(1)->setMarginGroup(QCP::msLeft|QCP::msRight, group);
+
 
 
 
