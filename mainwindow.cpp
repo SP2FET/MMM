@@ -351,12 +351,15 @@ void MainWindow::on_bodeButton_clicked()
 {
     QVector<double> xData, y1Data, y2Data;
 
-
+    xData.clear();
+    y1Data.clear();
+    y2Data.clear();
 
     for (double index = 0; index < 100; index= index+0.001) {
         y1Data.append(transmittance->getBodeMagnitude((index)/2*PI));
         y2Data.append(qRadiansToDegrees(transmittance->getBodePhaseShift((index)/2*PI)));
         xData.append((index)/2*PI);
+
 
     }
 

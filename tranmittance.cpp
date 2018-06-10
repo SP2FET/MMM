@@ -137,7 +137,7 @@ double C_Transmittance::getBodeMagnitude(double frequency)
 double C_Transmittance::getBodePhaseShift(double frequency)
 {
 	double w = 2 * PI*frequency;
-    double buffer = atan2((a0Factor - a2Factor * pow(w, 2)) , (((-1)*pow(w, 3) + w * a1Factor)));
+    double buffer = atan2( ((-1)*pow(w, 3) + w * a1Factor) , -(a0Factor - a2Factor * pow(w, 2)) );
     //
 	return buffer;
 }

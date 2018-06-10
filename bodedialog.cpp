@@ -53,10 +53,12 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
     ui->customPlot->axisRect(1)->setMarginGroup(QCP::msLeft|QCP::msRight, group);
 
     double maxValue = std::numeric_limits<double>::min();
-    double wr;
-    int index = 0, frIndex = 0;
+    double fr,fpc,fgc;
+    int index = 0, frIndex = 0, fpcIndex = 0,fgcIndex = 0;
+
     for(; index < y1Data.size();index++)
     {
+         if(y1Data.at(index) == 0.0) fpcIndex = index;
         if(y1Data.at(index) > maxValue)
         {
             maxValue = y1Data.at(index);
@@ -64,9 +66,35 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
         }
 
     }
+
+
     ui->maxValueLabel->setText(QString::number(maxValue).append(" dB"));
-    wr = xData.at(frIndex);
-    ui->frLabel->setText(QString::number(wr).append(" Hz"));
+
+        fr = xData.at(frIndex);
+        ui->frLabel->setText(QString::number(fr).append(" Hz"));
+
+
+
+        fpc = fabs(y2Data.at(fpcIndex));
+        ui->phaseMarginLabel->setText(QString::number(180 - fpc).append(" st"));
+
+
+    for(index = 0; index < y2Data.size();index++)
+    {
+        if(y2Data.at(index) == 180.0)
+        {
+            fgcIndex = index;
+        }
+
+    }
+
+
+
+         ui->GainMarginLabel->setText(QString::number(fabs(y1Data.at(fgcIndex))).append(" dB"));
+    if(fgcIndex == y2Data.size())
+         ui->GainMarginLabel->setText("Infinity");
+
+
 
 }
 
@@ -82,6 +110,8 @@ void BodeDialog::on_pushButton_clicked()
      bode1Graph->keyAxis()->setRangeLower(10e-4);
      bode2Graph->keyAxis()->setRangeLower(10e-4);
 
+//     bode1Graph->keyAxis()->setRangeUpper(10);
+//     bode2Graph->keyAxis()->setRangeUpper(10);
 
     ui->customPlot->replot();
 }
