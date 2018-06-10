@@ -147,10 +147,10 @@ double C_Transmittance::getBodePhaseShift(double frequency)
 void C_Transmittance::makeStep()
 { 
 	// liczenie transmitancji tu     (cos nie dziala)
-		tmat<double> bufferMatrix = mul(C, X);
+       // tmat<double> bufferMatrix = mul(C, X);
 
 		Xd = mul(A, X) + mul(B, u);
-        X = X + mul(Xd, timeStep/*/10.0*/);
+        X = X + mul(Xd, timeStep);
 
 		y = X(1, 1);
 	/*

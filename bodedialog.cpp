@@ -52,8 +52,21 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
     ui->customPlot->axisRect(0)->setMarginGroup(QCP::msLeft|QCP::msRight, group);
     ui->customPlot->axisRect(1)->setMarginGroup(QCP::msLeft|QCP::msRight, group);
 
+    double maxValue = std::numeric_limits<double>::min();
+    double wr;
+    int index = 0, frIndex = 0;
+    for(; index < y1Data.size();index++)
+    {
+        if(y1Data.at(index) > maxValue)
+        {
+            maxValue = y1Data.at(index);
+            frIndex = index;
+        }
 
-
+    }
+    ui->maxValueLabel->setText(QString::number(maxValue).append(" dB"));
+    wr = xData.at(frIndex);
+    ui->frLabel->setText(QString::number(wr).append(" Hz"));
 
 }
 

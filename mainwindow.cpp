@@ -351,10 +351,13 @@ void MainWindow::on_bodeButton_clicked()
 {
     QVector<double> xData, y1Data, y2Data;
 
-    for (double index = 0; index < 100; index= index+0.01) {
+
+
+    for (double index = 0; index < 100; index= index+0.001) {
         y1Data.append(transmittance->getBodeMagnitude((index)/2*PI));
         y2Data.append(qRadiansToDegrees(transmittance->getBodePhaseShift((index)/2*PI)));
-        xData.append((index*100)/2*PI);
+        xData.append((index)/2*PI);
+
     }
 
     BodeDialog *bodeDialog = new BodeDialog(xData,y1Data,y2Data);
@@ -373,10 +376,4 @@ void MainWindow::on_updateSpeedButton_clicked()
        ui->simSpeedLabel->setText(ui->simSpeedEdit->text().append(" x"));
 }
 
-/*
- * 60 - max
- *
- *  30 - 0
- *
- *
-*/
+

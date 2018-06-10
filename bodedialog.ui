@@ -36,6 +36,58 @@
     <string>Rescale Axes</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>90</y>
+     <width>41</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Peak:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="maxValueLabel">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>90</y>
+     <width>81</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>110</y>
+     <width>16</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Fr:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="frLabel">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>110</y>
+     <width>81</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
