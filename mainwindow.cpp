@@ -179,9 +179,11 @@ void MainWindow::timerEvent()
     if(counter == 0.0) timer= 0.0;
     transmittance->loadInputValue(generator->getFunctionValue(inputFunctionType,timer));
     transmittance->delayInputValue(timer);
-    transmittance->makeStep(simulationSpeed);
+    transmittance->makeStep();
 
-    timer += simulationSpeed;
+    timer += transmittance->timeStep;
+    yData.append(transmittance->getOutputValue());
+
 //    cout << counter << "   ";
 //    cout << timer<<"   ";
 //    cout << "Input value: " << generator->getFunctionValue(inputFunctionType,timer) << "   ";
@@ -189,9 +191,10 @@ void MainWindow::timerEvent()
 
     xData.append(timer);
 
-    yData.append(transmittance->getOutputValue());
+
     inputData.append(generator->getFunctionValue(inputFunctionType,timer));
     counter += 1 ;
+
 
      outputGraph->setData(xData, yData);
      outputGraph->rescaleAxes();
@@ -212,7 +215,8 @@ void MainWindow::on_startStopButton_clicked()
      }
      else
      {
-       plotTimer->start(50);
+       //plotTimer->setInterval(60 - simSpeed*10);
+       plotTimer->start(60 - simSpeed*10);
        ui->startStopButton->setText("Stop");
      }
 }
@@ -339,7 +343,7 @@ void MainWindow::on_resetButton_clicked()
     outputGraph->setData(xData,yData);
     inputGraph->setData(xData,inputData);
     ui->customPlot->replot();
-
+    plotTimer->setInterval(60 - simSpeed*10);
     counter = 0;
 }
 
@@ -363,5 +367,16 @@ void MainWindow::on_bodeButton_clicked()
 void MainWindow::on_updateSpeedButton_clicked()
 {
 
-       transmittance->simulationSpeed = ui->simSpeedEdit->text().toDouble();
+       simSpeed= ui->simSpeedEdit->text().toDouble();
+       if(simSpeed > 59) simSpeed = 59;
+       plotTimer->setInterval(60 - simSpeed*10);
+       ui->simSpeedLabel->setText(ui->simSpeedEdit->text().append(" x"));
 }
+
+/*
+ * 60 - max
+ *
+ *  30 - 0
+ *
+ *
+*/

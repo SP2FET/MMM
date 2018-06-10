@@ -37,6 +37,8 @@ private slots:
 
     void on_bodeButton_clicked();
 
+    void on_updateSpeedButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTimer *plotTimer;
@@ -46,6 +48,7 @@ private:
     QVector<double> xData, yData, inputData;
     int	   counter = 0;
     QString cleanStringFromGarbage(QString str);
+    double simSpeed = 1;
 
 protected:
 

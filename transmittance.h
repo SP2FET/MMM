@@ -65,11 +65,11 @@ public:
 	void   delayInputValue(double time);
 	double getOutputValue();
     void   resetSimulation();
-	void   makeStep(double timeStep);
+    void   makeStep();
     bool   isSystemStable();
 
 	double getBodeMagnitude(double frequency);       // zwraca wartosci w dB, jako argument podaje czestotliwosc, nie pulsacje
 	double getBodePhaseShift(double frequency);      // zwraca wartosci tylko od -pi/2 do pi/2, podaje czestotliwosc
-
+    double timeStep = 0.05;
 
 };
