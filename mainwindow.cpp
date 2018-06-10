@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     plotTimer = new QTimer(this);
     QObject::connect(plotTimer, SIGNAL(timeout()), this, SLOT(timerEvent()));
-    plotTimer->setInterval(60);
+    plotTimer->setInterval(20);
 
 
 
@@ -174,7 +174,7 @@ MainWindow::~MainWindow()
 void MainWindow::timerEvent()
 {
     qDebug() << "Update...";
-     double simulationSpeed = 0.1;
+
     static double timer = 0.0;
     if(counter == 0.0) timer= 0.0;
     transmittance->loadInputValue(generator->getFunctionValue(inputFunctionType,timer));
@@ -187,7 +187,7 @@ void MainWindow::timerEvent()
 //    cout << "Input value: " << generator->getFunctionValue(inputFunctionType,timer) << "   ";
 //    cout << "Output value: " << transmittance->getOutputValue() << endl;
 
-    xData.append(counter);
+    xData.append(timer);
 
     yData.append(transmittance->getOutputValue());
     inputData.append(generator->getFunctionValue(inputFunctionType,timer));
@@ -358,4 +358,10 @@ void MainWindow::on_bodeButton_clicked()
 
     bodeDialog->exec();
 
+}
+
+void MainWindow::on_updateSpeedButton_clicked()
+{
+
+       transmittance->simulationSpeed = ui->simSpeedEdit->text().toDouble();
 }
