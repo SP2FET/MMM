@@ -64,7 +64,7 @@ public:
 	void   loadInputValue(double value);
 	void   delayInputValue(double time);
 	double getOutputValue();
-
+    void   resetSimulation();
 	void   makeStep(double timeStep);
     bool   isSystemStable();
 

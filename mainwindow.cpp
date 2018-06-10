@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     plotTimer = new QTimer(this);
     QObject::connect(plotTimer, SIGNAL(timeout()), this, SLOT(timerEvent()));
-    plotTimer->setInterval(100);
+    plotTimer->setInterval(60);
 
 
 
@@ -174,7 +174,7 @@ MainWindow::~MainWindow()
 void MainWindow::timerEvent()
 {
     qDebug() << "Update...";
-     double simulationSpeed = 0.05;
+     double simulationSpeed = 0.1;
     static double timer = 0.0;
     if(counter == 0.0) timer= 0.0;
     transmittance->loadInputValue(generator->getFunctionValue(inputFunctionType,timer));
@@ -182,15 +182,16 @@ void MainWindow::timerEvent()
     transmittance->makeStep(simulationSpeed);
 
     timer += simulationSpeed;
-    cout << counter << "   ";
-    cout << timer<<"   ";
-    cout << "Input value: " << generator->getFunctionValue(inputFunctionType,timer) << "   ";
-    cout << "Output value: " << transmittance->getOutputValue() << endl;
+//    cout << counter << "   ";
+//    cout << timer<<"   ";
+//    cout << "Input value: " << generator->getFunctionValue(inputFunctionType,timer) << "   ";
+//    cout << "Output value: " << transmittance->getOutputValue() << endl;
 
     xData.append(counter);
-    counter++;
+
     yData.append(transmittance->getOutputValue());
     inputData.append(generator->getFunctionValue(inputFunctionType,timer));
+    counter += 1 ;
 
      outputGraph->setData(xData, yData);
      outputGraph->rescaleAxes();
@@ -334,6 +335,7 @@ void MainWindow::on_resetButton_clicked()
     xData.clear();
     yData.clear();
     inputData.clear();
+    transmittance->resetSimulation();
     outputGraph->setData(xData,yData);
     inputGraph->setData(xData,inputData);
     ui->customPlot->replot();

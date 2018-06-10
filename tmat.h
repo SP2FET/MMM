@@ -8,7 +8,7 @@
 // Revised Sep 1, 2003
 // Last Update Jan 19, 2010
 
-#pragma warning (disable: 4786)
+
 
 #ifndef _TMAT_
 #define _TMAT_

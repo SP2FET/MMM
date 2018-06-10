@@ -6,7 +6,7 @@
 #include <QDataStream>
 using namespace std;
 
-#define PI 3.14159
+//#define PI 3.14159
 
 
 C_Generator::C_Generator(double frequency, double amplitude, double phase)
@@ -41,6 +41,7 @@ double C_Generator::getFunctionValue(enum fType functionType, double time)
         return getFunctionSquareValue(time);
         break;
     default:
+        return 0.0;
         break;
     }
 }
@@ -97,6 +98,7 @@ double C_Generator::getFunctionTriangleValue(double time)
 	else if (functionPeriodicAngle > (PI / 2) && functionPeriodicAngle < (3 * PI / 2))	 return (2*functionAmplitude - functionPeriodicAngle*functionAmplitude / (PI / 2));
 	else if (functionPeriodicAngle > (3*PI/2) && functionPeriodicAngle < (2*PI))		 return ((-1)*4*functionAmplitude + functionPeriodicAngle*functionAmplitude / (PI / 2));
 	else cout << "Triangle function error!" << endl;
+    return 0.0;
 
 }
 

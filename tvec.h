@@ -6,7 +6,7 @@
 // Originated Oct 5, 2002
 // Last Update Jan 10, 2010
 
-#pragma warning (disable: 4786)
+
 
 #ifndef _TVEC_
 #define _TVEC_

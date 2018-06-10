@@ -3,7 +3,6 @@
 // s¹ rzadko zmieniane
 //
 
-#pragma once
 
 
 #define PI 3.14159265
