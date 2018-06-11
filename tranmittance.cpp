@@ -126,7 +126,7 @@ bool  C_Transmittance::isSystemStable()
 
 double C_Transmittance::getBodeMagnitude(double frequency)
 {
-	double w = 2 * PI*frequency;
+    double w = 2 * PI*frequency;
 	double buffer = sqrt(pow((a0Factor - a2Factor*pow(w, 2.0)), 2.0) + pow(((-1)*pow(w, 3) + a1Factor*w), 2.0)) / (pow((a0Factor - a2Factor*pow(w, 2.0)), 2.0) + pow(((-1)*pow(w, 3) + a1Factor*w), 2.0));
 
 	return 20*log10(buffer);
@@ -137,8 +137,9 @@ double C_Transmittance::getBodeMagnitude(double frequency)
 double C_Transmittance::getBodePhaseShift(double frequency)
 {
     double w = 2 * PI*frequency;
-    double buffer = atan2( (a0Factor - (a2Factor * pow(w, 2))) / (pow(((-1)*pow(w,3)+a1Factor*w),2)) + pow((-a2Factor*pow(w,2)+a2Factor),2) , ( (-1)*pow(w, 3) + (w*a1Factor) ) / (pow(((-1)*pow(w,3)+a1Factor*w),2)) + pow((-a2Factor*pow(w,2)+a2Factor),2) );
-    //
+    double buffer = atan2(-(( (-1)*pow(w, 3) + (w*a1Factor)) )  ,(a0Factor - (a2Factor * pow(w, 2))) );
+    //(( (-1)*pow(w, 3) + (w*a1Factor)) )
+    //(a0Factor - (a2Factor * pow(w, 2)))
     return buffer;
 }
 
@@ -146,29 +147,10 @@ double C_Transmittance::getBodePhaseShift(double frequency)
 
 void C_Transmittance::makeStep()
 { 
-	// liczenie transmitancji tu     (cos nie dziala)
-       // tmat<double> bufferMatrix = mul(C, X);
-
 		Xd = mul(A, X) + mul(B, u);
         X = X + mul(Xd, timeStep);
 
 		y = X(1, 1);
-	/*
-	tmat<double> bufferMatrix = mul(C, X);
-
-	Xd = mul(A,X) + mul(B,u);
-	//y = bufferMatrix(1, 1);
-	y = X(1, 1);    //!!!!!
-
-	//tmat<double> bufferMatrix2 =mul(C,X);
-	//y = bufferMatrix2(1,1);
-
-	//cout <<endl<< mul(B,u) << endl;
-	//cout << mul(B, u) << endl;
-	//cout << X<< endl;
-
-	X = X + mul(Xd,stepDurationTime); ////!!!!!!
-	*/
 }
 
 

@@ -3,7 +3,7 @@
 #include "transmittance.h"
 #include "function_generator.h"
 #include "bodedialog.h"
-
+#include <QTextStream>
 
 using namespace std;
 
@@ -58,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
      outputGraph = ui->customPlot->addGraph(lowerGraph->axis(QCPAxis::atBottom), lowerGraph->axis(QCPAxis::atLeft));
+
 
 
    // subRectRight->setMaximumSize(150, 150); // make bottom right axis rect size fixed 150x150
@@ -350,21 +351,47 @@ void MainWindow::on_resetButton_clicked()
 void MainWindow::on_bodeButton_clicked()
 {
     QVector<double> xData, y1Data, y2Data;
+    double phaseValue;
+    bool phaseInvert;
 
     xData.clear();
     y1Data.clear();
     y2Data.clear();
 
     for (double index = 0; index < 100; index= index+0.001) {
-        y1Data.append(transmittance->getBodeMagnitude((index)/2*PI));
-        y2Data.append(qRadiansToDegrees(transmittance->getBodePhaseShift((index)/2*PI)));
-        xData.append((index)/2*PI);
+        y1Data.append(transmittance->getBodeMagnitude(index/(2*PI)));
+        phaseValue = qRadiansToDegrees(transmittance->getBodePhaseShift(index/(2*PI)));
+        if(phaseValue > 179.9) phaseInvert = true;
+        if(phaseInvert)
+            y2Data.append(phaseValue-360);
+        //180- p -
+        else
+            y2Data.append(phaseValue);
+
+        xData.append(index);
 
 
     }
 
     BodeDialog *bodeDialog = new BodeDialog(xData,y1Data,y2Data);
     //bodeDialog->setParent(this);
+
+#ifdef DEBUG
+
+    QFile dataFile("abcxyz.txt");
+    double xStep = 0;
+
+    dataFile.open(QIODevice::ReadWrite);
+
+        qDebug("otwarty");
+        QTextStream out(&dataFile);
+
+        for(int index = 0; index < xData.size();index++)
+        {
+            out << xData.at(index) << " " << y1Data.at(index) << " " << y2Data.at(index)<<endl;
+        }
+        dataFile.close();
+#endif
 
     bodeDialog->exec();
 

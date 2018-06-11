@@ -1,6 +1,7 @@
 ﻿#include "bodedialog.h"
 #include "mainwindow.h"
 #include "ui_bodedialog.h"
+#include <cmath>
 
 BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<double> y2Data, QWidget *parent) :
     QDialog(parent),
@@ -51,14 +52,17 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
     QCPMarginGroup *group = new QCPMarginGroup(ui->customPlot);
     ui->customPlot->axisRect(0)->setMarginGroup(QCP::msLeft|QCP::msRight, group);
     ui->customPlot->axisRect(1)->setMarginGroup(QCP::msLeft|QCP::msRight, group);
-
+//////////////////////////////////////////////////////////
     double maxValue = std::numeric_limits<double>::min();
     double fr,fpc,fgc;
     int index = 0, frIndex = 0, fpcIndex = 0,fgcIndex = 0;
+    double absGainValue = 0.01;
+    double absPhaseValue = 0.1;   //!!!
 
     for(; index < y1Data.size();index++)
     {
-         if(y1Data.at(index) == 0.0) fpcIndex = index;
+        if(y1Data.at(index) < absGainValue && y1Data.at(index) > -absGainValue) fpcIndex = index;
+
         if(y1Data.at(index) > maxValue)
         {
             maxValue = y1Data.at(index);
@@ -66,7 +70,6 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
         }
 
     }
-
 
     ui->maxValueLabel->setText(QString::number(maxValue).append(" dB"));
 
@@ -81,7 +84,7 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
 
     for(index = 0; index < y2Data.size();index++)
     {
-        if(y2Data.at(index) == 180.0)
+        if(y2Data.at(index) < (-180.0 + absPhaseValue) && y2Data.at(index) > (-180.0 - absPhaseValue))
         {
             fgcIndex = index;
         }
@@ -89,11 +92,9 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
     }
 
 
-
          ui->GainMarginLabel->setText(QString::number(fabs(y1Data.at(fgcIndex))).append(" dB"));
     if(fgcIndex == y2Data.size())
          ui->GainMarginLabel->setText("Infinity");
-
 
 
 }

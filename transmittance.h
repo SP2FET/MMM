@@ -13,14 +13,7 @@
 
 #define D_MATRIX_ROWS_NUMBER		1
 #define D_MATRIX_COLUMNS_NUMBER		3
- /*
-#define U_MATRIX_ROWS_NUMBER		1
-#define U_MATRIX_COLUMNS_NUMBER		1
 
-#define Y_MATRIX_ROWS_NUMBER		1
-#define Y_MATRIX_COLUMNS_NUMBER		1
-
-*/
 #define X_MATRIX_ROWS_NUMBER		3
 #define X_MATRIX_COLUMNS_NUMBER		1
 
@@ -34,7 +27,6 @@ class C_Transmittance
 {
 private:
 
-	//double stepDurationTime;
 
 	double a2Factor;           // wpolczynniki mianownika transmitancji
 	double a1Factor;
