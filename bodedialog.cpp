@@ -24,9 +24,9 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
     QCPAxisRect *upperGraph = new QCPAxisRect(ui->customPlot);
     upperGraph->setupFullAxesBox(true);
     QCPLayoutGrid *subLayout = new QCPLayoutGrid;
-    ui->customPlot->plotLayout()->addElement(0, 0, upperGraph); // insert axis rect in first row
-    ui->customPlot->plotLayout()->addElement(1, 0, subLayout); // sub layout in second row (grid layout will grow accordingly)
-    QCPAxisRect *lowerGraph = new QCPAxisRect(ui->customPlot, true); // false means to not setup default axes
+    ui->customPlot->plotLayout()->addElement(0, 0, upperGraph);
+    ui->customPlot->plotLayout()->addElement(1, 0, subLayout);
+    QCPAxisRect *lowerGraph = new QCPAxisRect(ui->customPlot, true);
     subLayout->addElement(0, 0, lowerGraph);
 
     bode2Graph = ui->customPlot->addGraph(lowerGraph->axis(QCPAxis::atBottom), lowerGraph->axis(QCPAxis::atLeft));
@@ -40,10 +40,10 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
     QSharedPointer<QCPAxisTickerLog> logTicker(new QCPAxisTickerLog);
     bode1Graph->keyAxis()->setTicker(logTicker);
     bode2Graph->keyAxis()->setTicker(logTicker);
-    bode1Graph->keyAxis()->setNumberFormat("eb"); // e = exponential, b = beautiful decimal powers
-    bode1Graph->keyAxis()->setNumberPrecision(0); // makes sure "1*10^4" is displayed only as "10^4"
-    bode2Graph->keyAxis()->setNumberFormat("eb"); // e = exponential, b = beautiful decimal powers
-    bode2Graph->keyAxis()->setNumberPrecision(0); // makes sure "1*10^4" is displayed only as "10^4"
+    bode1Graph->keyAxis()->setNumberFormat("eb");
+    bode1Graph->keyAxis()->setNumberPrecision(0);
+    bode2Graph->keyAxis()->setNumberFormat("eb");
+    bode2Graph->keyAxis()->setNumberPrecision(0);
     bode1Graph->keyAxis()->setRangeLower(10e-4);
     bode2Graph->keyAxis()->setRangeLower(10e-4);
     bode1Graph->keyAxis()->grid()->setSubGridVisible(true);
@@ -57,7 +57,7 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
     double fr,fpc,fgc;
     int index = 0, frIndex = 0, fpcIndex = 0,fgcIndex = 0;
     double absGainValue = 0.01;
-    double absPhaseValue = 0.1;   //!!!
+    double absPhaseValue = 0.1;
 
     for(; index < y1Data.size();index++)
     {
@@ -79,7 +79,8 @@ BodeDialog::BodeDialog(QVector<double> xData, QVector<double> y1Data, QVector<do
 
 
         fpc = fabs(y2Data.at(fpcIndex));
-        ui->phaseMarginLabel->setText(QString::number(180 - fpc).append(" st"));
+         QString deg = QChar(0x00B0);
+        ui->phaseMarginLabel->setText(QString::number(180 - fpc).append(" ").append(deg));
 
 
     for(index = 0; index < y2Data.size();index++)

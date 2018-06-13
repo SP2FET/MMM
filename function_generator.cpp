@@ -6,8 +6,6 @@
 #include <QDataStream>
 using namespace std;
 
-//#define PI 3.14159
-
 
 C_Generator::C_Generator(double frequency, double amplitude, double phase)
 {
@@ -79,8 +77,8 @@ double C_Generator::parseInputPI(QString input)
 
 double C_Generator::getFunctionSquareValue(double time)
 {
-	double functionWholeAngle = time * 2* PI * functionFrequency + initialFunctionPhase;  // k¹t ca³kowity np 1339493 stopni
-	double functionPeriodicAngle = fmod(functionWholeAngle, 2 * PI);                  // kat mieszczacy sie pd 0 do 2rad
+    double functionWholeAngle = time * 2* PI * functionFrequency + initialFunctionPhase;
+    double functionPeriodicAngle = fmod(functionWholeAngle, 2 * PI);
 	
 	if (functionPeriodicAngle < PI)  return functionAmplitude;
 	else return ((-1)*functionAmplitude);
@@ -90,11 +88,11 @@ double C_Generator::getFunctionSquareValue(double time)
 
 double C_Generator::getFunctionTriangleValue(double time)
 {
-	double functionWholeAngle = time * 2 * PI * functionFrequency + initialFunctionPhase;  // k¹t ca³kowity np 1339493 stopni
-	double functionPeriodicAngle = fmod(functionWholeAngle, 2 * PI);                  // kat mieszczacy sie pd 0 do 2rad
+    double functionWholeAngle = time * 2 * PI * functionFrequency + initialFunctionPhase;
+    double functionPeriodicAngle = fmod(functionWholeAngle, 2 * PI);
 
 
-	if      (functionPeriodicAngle < (PI/2))											 return (functionPeriodicAngle*functionAmplitude / (PI / 2)); // fmod zwraca reszte z dzielenia - sprawdzam w jakim mijescu okresu jest funkcja
+    if      (functionPeriodicAngle < (PI/2))											 return (functionPeriodicAngle*functionAmplitude / (PI / 2));
 	else if (functionPeriodicAngle > (PI / 2) && functionPeriodicAngle < (3 * PI / 2))	 return (2*functionAmplitude - functionPeriodicAngle*functionAmplitude / (PI / 2));
 	else if (functionPeriodicAngle > (3*PI/2) && functionPeriodicAngle < (2*PI))		 return ((-1)*4*functionAmplitude + functionPeriodicAngle*functionAmplitude / (PI / 2));
 	else cout << "Triangle function error!" << endl;

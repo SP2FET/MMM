@@ -13,7 +13,7 @@ void WriteInMatrixFactors(tmat<double> &Matrix, double a2, double a1, double a0)
 
 
 
-C_Transmittance::C_Transmittance(double a2, double a1, double a0, double delayTime /*double stepTime*/)
+C_Transmittance::C_Transmittance(double a2, double a1, double a0, double delayTime)
 {
 
 	A.resize(A_MATRIX_ROWS_NUMBER, A_MATRIX_COLUMNS_NUMBER);       // zadawanie rozmiarow tablicom
@@ -38,7 +38,7 @@ C_Transmittance::C_Transmittance(double a2, double a1, double a0, double delayTi
 	C(1, 1) = 1.0;
 	
 	loadDelayTime(delayTime);
-//	setStepDurationTime(stepTime);
+
 
 }
 
@@ -58,11 +58,6 @@ void C_Transmittance::loadDenominatorFactors(double a2, double a1, double a0)
 void C_Transmittance::loadDelayTime(double time)	{ delayTime = time; }
 
 
-
-//void C_Transmittance::setStepDurationTime(double time) { stepDurationTime = time; }
-
-
-
 void C_Transmittance::loadInputValue(double value)  
 {
 	delayedSamples.push(value);
@@ -70,13 +65,13 @@ void C_Transmittance::loadInputValue(double value)
 
 void C_Transmittance::resetSimulation()
 {
-    A = tfill(A_MATRIX_ROWS_NUMBER, A_MATRIX_COLUMNS_NUMBER, 0.0);    //czysczenie tablic
+    A = tfill(A_MATRIX_ROWS_NUMBER, A_MATRIX_COLUMNS_NUMBER, 0.0);
     B = tfill(B_MATRIX_ROWS_NUMBER, B_MATRIX_COLUMNS_NUMBER, 0.0);
     C = tfill(C_MATRIX_ROWS_NUMBER, C_MATRIX_COLUMNS_NUMBER, 0.0);
     D = tfill(D_MATRIX_ROWS_NUMBER, D_MATRIX_COLUMNS_NUMBER, 0.0);
     X = tfill(X_MATRIX_ROWS_NUMBER, X_MATRIX_COLUMNS_NUMBER, 0.0);
     Xd = tfill(XD_MATRIX_ROWS_NUMBER, XD_MATRIX_COLUMNS_NUMBER, 0.0);
-    A(1, 2) = 1.0;														// ustawianie wartosci stalych elementow tablicy
+    A(1, 2) = 1.0;
     A(2, 3) = 1.0;
     loadDenominatorFactors(a2Factor, a1Factor, a0Factor);
     B(B_MATRIX_ROWS_NUMBER, B_MATRIX_COLUMNS_NUMBER) = 1.0;
@@ -114,7 +109,6 @@ bool  C_Transmittance::isSystemStable()
 	D2(2, 1) = a0Factor;
 	D2(2, 2) = a1Factor;													//macierz Hurwitza
 
-	//cout << det(D2) << endl; //!!!!1
 
     if (det(D2) > 0 && det(D1) > 0 )
         return true;
@@ -127,7 +121,8 @@ bool  C_Transmittance::isSystemStable()
 double C_Transmittance::getBodeMagnitude(double frequency)
 {
     double w = 2 * PI*frequency;
-	double buffer = sqrt(pow((a0Factor - a2Factor*pow(w, 2.0)), 2.0) + pow(((-1)*pow(w, 3) + a1Factor*w), 2.0)) / (pow((a0Factor - a2Factor*pow(w, 2.0)), 2.0) + pow(((-1)*pow(w, 3) + a1Factor*w), 2.0));
+    double buffer = sqrt(pow((a0Factor - a2Factor*pow(w, 2.0)), 2.0) + pow(((-1)*pow(w, 3) + a1Factor*w), 2.0)) /
+                        (pow((a0Factor - a2Factor*pow(w, 2.0)), 2.0) + pow(((-1)*pow(w, 3) + a1Factor*w), 2.0));
 
 	return 20*log10(buffer);
 }
@@ -137,9 +132,7 @@ double C_Transmittance::getBodeMagnitude(double frequency)
 double C_Transmittance::getBodePhaseShift(double frequency)
 {
     double w = 2 * PI*frequency;
-    double buffer = atan2(-(( (-1)*pow(w, 3) + (w*a1Factor)) )  ,(a0Factor - (a2Factor * pow(w, 2))) );
-    //(( (-1)*pow(w, 3) + (w*a1Factor)) )
-    //(a0Factor - (a2Factor * pow(w, 2)))
+    double buffer = atan2(-(( (-1)*pow(w, 3) + (w*a1Factor)) ) , (a0Factor - (a2Factor * pow(w, 2))) );
     return buffer;
 }
 
