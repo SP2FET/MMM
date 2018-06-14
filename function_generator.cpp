@@ -95,7 +95,7 @@ double C_Generator::getFunctionTriangleValue(double time)
     if      (functionPeriodicAngle < (PI/2))											 return (functionPeriodicAngle*functionAmplitude / (PI / 2));
 	else if (functionPeriodicAngle > (PI / 2) && functionPeriodicAngle < (3 * PI / 2))	 return (2*functionAmplitude - functionPeriodicAngle*functionAmplitude / (PI / 2));
 	else if (functionPeriodicAngle > (3*PI/2) && functionPeriodicAngle < (2*PI))		 return ((-1)*4*functionAmplitude + functionPeriodicAngle*functionAmplitude / (PI / 2));
-	else cout << "Triangle function error!" << endl;
+    else qDebug( "Triangle function error!" );
     return 0.0;
 
 }
